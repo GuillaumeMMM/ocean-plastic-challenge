@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    .App {
+        font-family: 'Open Sans', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  
+        .graph-container {
+            // border: 1px solid black;
+            // background-color: lightgrey;
+
+            .graph-axis {
+
+                path {
+                    stroke-width: 0.3px;
+                }
+
+                .tick {
+                    text {
+                        font-size: 3px;
+                    }
+
+                    line {
+                        display: none;
+                    }
+                }
+            }
+
+            .selection {
+                stroke: none;
+            }
+        }
+    }
+  }
