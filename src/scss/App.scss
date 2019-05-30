@@ -19,7 +19,7 @@ body {
             .graph-axis {
 
                 path {
-                    stroke-width: 0.3px;
+                    stroke-width: 0;
                 }
 
                 .tick {
@@ -35,6 +35,47 @@ body {
 
             .selection {
                 stroke: none;
+            }
+
+            .grid-lines {
+                .tick {
+                    stroke-width: 0.1px;
+                    stroke-dasharray: 1 1;
+                    color: #333;
+                    stroke-opacity: 0.7;
+                }
+
+                path {
+                    stroke-width: 0.1px;
+                    stroke-dasharray: 1 1;
+                    color: #333;
+                    stroke-opacity: 0.7;
+                }
+
+                .grid-x-lines {
+                    .tick:nth-child(2) {
+                        display: none;
+                    }
+
+                    .tick:last-child {
+                        display: none;
+                    }
+                }
+
+                .grid-y-lines {
+
+                    .tick:nth-child(2) {
+                        display: none;
+                    }
+                    
+                    .tick:last-child {
+                        display: none;
+                    }
+                }
+            }
+
+            .point-circle {
+                stroke: white;
             }
         }
     }
