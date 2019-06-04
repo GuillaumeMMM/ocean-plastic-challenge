@@ -222,3 +222,14 @@ export const data = [
       "waste_mismanadged": 235170000
     }
   ]
+
+  export const dataZoomed = [
+    {
+      "date": '2024-12-31',
+      "waste_mismanadged": 235170000
+    },
+    {
+      "date": '2025-01-01',
+      "waste_mismanadged": 235170000
+    }
+  ]

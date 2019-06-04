@@ -6,7 +6,8 @@ import GraphZoom from './components/GraphZoom';
 function App() {
   return (
     <div className="App">
-      <GraphZoom></GraphZoom>
+      <Graph id={1}></Graph>
+      <GraphZoom id={2}></GraphZoom>
     </div>
   );
 }
