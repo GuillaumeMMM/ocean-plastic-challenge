@@ -6,78 +6,91 @@
 
 body {
     .App {
-        font-family: 'Open Sans', sans-serif;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-  
-        .graph-container {
-            // border: 1px solid black;
-            // background-color: lightgrey;
+        background-image: url("../img/bg.jpeg");
+        background-color: #cccccc;
+        background-position: center center;
+        
+        display: grid;
+        grid-template-columns: 20% auto;
 
-            .graph-axis {
+        .chart-container {
+          font-family: 'Open Sans', sans-serif;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
 
-                path {
-                    stroke-width: 0;
-                }
+          .graph-container {
+              // border: 1px solid black;
+              // background-color: lightgrey;
 
-                .tick {
-                    text {
-                        font-size: 2.2px;
-                    }
+              .graph-axis {
 
-                    line {
-                        display: none;
-                    }
-                }
-            }
+                  path {
+                      stroke-width: 0;
+                  }
 
-            .selection {
-                stroke: none;
-            }
+                  .tick {
+                      text {
+                          font-size: 2.2px;
+                      }
 
-            .grid-lines {
-                .tick {
-                    stroke-width: 0.1px;
-                    stroke-dasharray: 1 1;
-                    color: #333;
-                    stroke-opacity: 0.7;
-                }
+                      line {
+                          display: none;
+                      }
+                  }
+              }
 
-                path {
-                    stroke-width: 0.1px;
-                    stroke-dasharray: 1 1;
-                    color: #333;
-                    stroke-opacity: 0.7;
-                }
+              .selection {
+                  stroke: none;
+              }
 
-                .grid-x-lines {
-                    .tick:nth-child(2) {
-                        display: none;
-                    }
+              .grid-lines {
+                  .tick {
+                      stroke-width: 0.1px;
+                      stroke-dasharray: 1 1;
+                      // color: #333;
+                      color: white;
+                      stroke-opacity: 0.7;
+                  }
 
-                    .tick:last-child {
-                        display: none;
-                    }
-                }
+                  path {
+                      stroke-width: 0.1px;
+                      stroke-dasharray: 1 1;
+                      // color: #333;
+                      color: white;
+                      stroke-opacity: 0.7;
+                  }
 
-                .grid-y-lines {
+                  .grid-x-lines {
+                      .tick:nth-child(2) {
+                          display: none;
+                      }
 
-                    .tick:nth-child(2) {
-                        display: none;
-                    }
-                    
-                    .tick:last-child {
-                        display: none;
-                    }
-                }
-            }
+                      .tick:last-child {
+                          display: none;
+                      }
+                  }
 
-            .point-circle {
-                stroke: white;
-            }
+                  .grid-y-lines {
+
+                      .tick:nth-child(2) {
+                          display: none;
+                      }
+
+                      .tick:last-child {
+                          display: none;
+                      }
+                  }
+              }
+
+              .point-circle {
+                  stroke: white;
+              }
+          }
         }
     }
   }
+
+@import "controller";
