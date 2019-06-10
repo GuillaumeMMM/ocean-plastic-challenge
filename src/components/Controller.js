@@ -16,49 +16,49 @@ class Controller extends React.Component {
   handleClickReuse() {
     console.log('click reuse');
     if (this.state.reuseStatus==='active') {
+      setTimeout(() => this.setState({friendStatus: 'active'}), 6500)
       this.setState({
         reuseStatus: 'complete',
-        friendStatus: 'active',
-      })
+      }, this.props.handleClick('reuse'))
     }else { return null;}
   }
   handleClickFriend() {
     if (this.state.friendStatus==='active') {
+      setTimeout(() => this.setState({fnfStatus: 'active'}), 1500)
       this.setState({
         friendStatus: 'complete',
-        fnfStatus: 'active',
-      })
+      }, this.props.handleClick('friend'))
     }else { return null;}
   }
   handleClickFnf() {
     if (this.state.fnfStatus==='active') {
       this.setState({
         fnfStatus: 'complete',
-      })
+      }, this.props.handleClick('fnf'))
     }else { return null;}
   }
   render () {
     return (
-      <ul class="progress-indicator stepped stacked">
+      <ul className="progress-indicator stepped stacked">
         <li onClick={this.handleClickReuse} className={this.state.reuseStatus}>
-          <span class="bubble reuse"></span>
-          <span class="stacked-text">
-              <span class="fa fa-calendar"></span> Step 1.
-              <span class="subdued">/ do something do something  do something  do something </span>
+          <span className="bubble reuse"></span>
+          <span className="stacked-text">
+              <span className="fa fa-calendar"></span> Step 1.
+              <span className="subdued">/ do something do something  do something  do something </span>
           </span>
         </li>
         <li className={this.state.friendStatus}>
-            <span onClick={this.handleClickFriend} class="bubble friend"></span>
-            <span class="stacked-text">
-                <span class="fa fa-calendar"></span> Step 2.
-                <span class="subdued">/ Some stuff happened. It was amazing.</span>
+            <span onClick={this.handleClickFriend} className="bubble friend"></span>
+            <span className="stacked-text">
+                <span className="fa fa-calendar"></span> Step 2.
+                <span className="subdued">/ Some stuff happened. It was amazing.</span>
             </span>
         </li>
         <li className={this.state.fnfStatus}>
-            <span onClick={this.handleClickFnf} class="bubble fnf"></span>
-            <span class="stacked-text">
-                <span class="fa fa-calendar"></span> Step 3.
-                <span class="subdued">/ What a wild day!</span>
+            <span onClick={this.handleClickFnf} className="bubble fnf"></span>
+            <span className="stacked-text">
+                <span className="fa fa-calendar"></span> Step 3.
+                <span className="subdued">/ What a wild day!</span>
             </span>
         </li>
       </ul>

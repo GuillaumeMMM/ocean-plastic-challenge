@@ -13,28 +13,49 @@ class GraphZoom extends Component {
 
         return (
             <React.Fragment>
-                <div className="graph-container" id="basic-chart" style={{ width: '80vw', height: '60vh' }}>
-
+                <div className="graph-container" id="zoomed-chart" style={{ width: '60vw', height: '48vh' }}>
+                    <div className="graph-title-zoomed">The impact you may have in 2025 on the mismanaged plastic waste (in tons)</div>
                 </div>
-                <button onClick={this.splitLines.bind(this, 0.001)}>Split Lines</button>
-                <button onClick={this.subtractMore.bind(this, 0.01)}>Subtract More</button>
+                {/* <button onClick={this.splitLines.bind(this, 0.001)}>Split Lines</button>
+                <button onClick={this.subtractMore.bind(this, 0.01)}>Subtract More</button> */}
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        const width = document.getElementById('basic-chart').clientWidth;
-        const height = document.getElementById('basic-chart').clientHeight;
+        const width = document.getElementById('zoomed-chart').clientWidth;
+        const height = document.getElementById('zoomed-chart').clientHeight;
         this.setState({ width: width, height: height }, this.initGraph)
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.showZoomedGraph && !nextProps.clickedFriend) {
+            console.log(nextProps)
+            // document.getElementsByClassName('zoomed-graph').display = 'block';
+            // document.getElementsById('zoomed-graph').display = 'block';
+            document.getElementById('zoomed-chart').style.position = 'relative';
+            document.getElementById('zoomed-chart').style.marginTop = '0px';
+            document.getElementById('zoomed-chart').style.opacity = '1';
+
+            d3.select('#main-clip-path-small-rect').transition().duration(1000).ease(d3.easeLinear).delay(1000)
+            .attr('width', this.relativeWidth(100) - this.relativeWidth(this.state.margin.left) - this.relativeWidth(this.state.margin.right));
+
+            this.drawHistoryPoints();
+        }
+
+        if (nextProps.clickedFriend && !nextProps.clickedFnf) {
+            this.subtractMore(0.115, 1);
+        }
+
+        if (nextProps.clickedFnf) {
+            this.subtractMore(1.15, 2)
+        }
     }
 
     initGraph = () => {
         const { width, height } = this.state;
 
-        const svg = d3.select('#basic-chart')
+        const svg = d3.select('#zoomed-chart')
             .append('svg').attr('id', 'main-svg-' + this.props.id)
             //  The viewbox will try to fill all the space given but preserving the ratio.
             //  h = div height, w = div width
@@ -45,7 +66,7 @@ class GraphZoom extends Component {
             })
             .attr('class', 'svg-content');
 
-        const margin = { top: 5, right: 5, bottom: 10, left: 10 };
+        const margin = { top: 5, right: 5, bottom: 10, left: 15 };
 
         const mainGroup = svg.append('g')
             .attr('class', 'main-group')
@@ -74,7 +95,7 @@ class GraphZoom extends Component {
 
         //  y scale
         const y = d3.scaleLinear()
-            .domain([235169999.99, 235170000.01])
+            .domain([235169999.90, 235170000.1])
             .range([this.relativeHeight(100 - margin.bottom), this.relativeHeight(margin.top)]);
 
 
@@ -86,12 +107,11 @@ class GraphZoom extends Component {
         //  clip path graph
         mainGroup.append('clipPath')
             .attr('id', 'main-clip-path-small')
-            .append('rect')
+            .append('rect').attr('id', 'main-clip-path-small-rect')
             .attr('x', this.relativeWidth(margin.left) + 0.5)
             .attr('y', this.relativeHeight(margin.top) + 0.5)
             .attr('width', 0)
-            .attr('height', this.relativeHeight(100) - this.relativeHeight(margin.bottom) - this.relativeHeight(margin.top)).transition().duration(1000).ease(d3.easeLinear)
-            .attr('width', this.relativeWidth(100) - this.relativeWidth(margin.left) - this.relativeWidth(margin.right));
+            .attr('height', this.relativeHeight(100) - this.relativeHeight(margin.bottom) - this.relativeHeight(margin.top));
 
         //  grid clip path graph
             mainGroup.append('clipPath')
@@ -122,7 +142,7 @@ class GraphZoom extends Component {
             .tickFormat("")
         )
 
-        gridYGroup.call(make_y_gridlines()
+        gridYGroup.attr('transform', 'translate(' + this.relativeWidth(margin.left) + ', 0)').call(make_y_gridlines()
             .tickSize(-width)
             .tickFormat("")
         )
@@ -132,7 +152,7 @@ class GraphZoom extends Component {
         linesGroup.append("path").datum(newData)
             .attr("fill", "none")
             .attr('class', 'now-path')
-            .attr("stroke", "black")
+            .attr("stroke", "white")
             .attr("stroke-width", '0.4px')
             .attr("d", d3.line().curve(d3.curveCardinal)
                 .x(d => x(d.date))
@@ -140,7 +160,7 @@ class GraphZoom extends Component {
             );
 
 
-        this.setState({ data: totalData, mainGroup: mainGroup, linesGroup: linesGroup, margin: margin, y: y, x: x, svg: svg, gridYGroup: gridYGroup }, this.drawHistoryPoints);
+        this.setState({ data: totalData, mainGroup: mainGroup, linesGroup: linesGroup, margin: margin, y: y, x: x, svg: svg, gridYGroup: gridYGroup });
     }
 
     //  Takes a % ang returns the right height
@@ -157,11 +177,11 @@ class GraphZoom extends Component {
         const pointsGroup = this.state.mainGroup.append('g').attr('class', 'points-group');
         const firstPointGroup = pointsGroup.append('g').attr('class', 'first-points-group').attr('transform', 'translate(' + this.state.x(d3.timeParse("%Y-%m-%d")(this.state.data[this.state.data.length - 1].date)) + ', ' + this.state.y(this.state.data[this.state.data.length - 1].value) + ')');
 
-        firstPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(1000).attr('r', 1);
-        firstPointGroup.append('rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'black').transition().duration(500).delay(1500).attr('height', 18).attr('y', -20);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -18).text('2025').style('font-size', '2.7px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -15).text('Plastic in the').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -12.5).text('ocean forecast').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(2000).attr('r', 1);
+        firstPointGroup.append('rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'white').transition().duration(500).delay(2500).attr('height', 18).attr('y', -20);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -18).text('2025').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(3000).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -14).text('Mismanaged plastic').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(3500).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -10.5).text('in the ocean forecast').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(3500).attr('opacity', 1).attr('x', 1).on('end', this.splitLines.bind(this, 0.0115));
 
         // this.splitLines(0.001);
     }
@@ -195,35 +215,42 @@ class GraphZoom extends Component {
 
         this.state.linesGroup.append('path')
             .datum(currentBindedData)
-            .style('fill', 'black')
+            .style('fill', 'white')
             .style('fill-opacity', 0)
             .style('stroke', 'none')
             .attr('class', 'area')
             .attr('d', area)
             .transition().duration(1000).delay(1000)
-            .style('fill-opacity', 0.02);
+            .style('fill-opacity', 0.3);
 
         const pointsGroup = this.state.mainGroup.select('.points-group');
         this.state.mainGroup.select('.second-points-group').remove();
         const secondPointGroup = pointsGroup.append('g').attr('class', 'second-points-group').attr('transform', 'translate(' + this.relativeWidth(50) + ', ' + this.relativeHeight(50) + ')');
 
         secondPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(1000).attr('r', 1);
-        secondPointGroup.append('rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'black').transition().duration(500).delay(1500).attr('height', 18).attr('y', -20);
-        secondPointGroup.append('text').attr('x', 0).attr('y', -18).text('Your Impact').style('font-size', '2.7px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
+        secondPointGroup.append('rect').attr('class', 'wasted-rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'white').transition().duration(500).delay(1500).attr('height', 18).attr('y', -20);
+        secondPointGroup.append('text').attr('class', 'wasted-impact-text').attr('fill', 'white').attr('x', 0).attr('y', -18).text('Your Impact').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
+        secondPointGroup.append('text').attr('class', 'wasted-text').attr('fill', 'white').attr('x', 0).attr('y', -14).text((val * 1000) + 'kg not wasted').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
     }
 
-    subtractMore = (val) => {
+    subtractMore = (val, index) => {
         const x = this.state.x;
         const y = this.state.y;
         
 
         console.log(y.domain);
+        console.log(val)
 
         let currentBindedData = this.state.mainGroup.select('.path-clone').datum();
         currentBindedData[0].value2 = currentBindedData[0].value2 - val;
         currentBindedData[1].value2 = currentBindedData[1].value2 - val;
         console.log(currentBindedData)
-        y.domain([currentBindedData[1].value2 - val, 235170000.01])
+
+        y.domain([currentBindedData[1].value2 - (val * 3), currentBindedData[1].value + (4 * val)])
+
+        if (index === 2) {
+            y.domain([currentBindedData[1].value2 - (val), currentBindedData[1].value + (2 * val)])
+        }
         this.state.mainGroup.select('.graph-axis-y').transition().duration(1000)
             .call(d3.axisLeft(y).tickSize(0).ticks(3));
 
@@ -239,6 +266,8 @@ class GraphZoom extends Component {
 
         this.state.mainGroup.select('.first-points-group').transition().duration(1000).attr('transform', 'translate(' + x(d3.timeParse("%Y-%m-%d")(this.state.data[this.state.data.length - 1].date)) + ', ' + y(this.state.data[this.state.data.length - 1].value) + ')');
 
+            this.state.mainGroup.select('.wasted-text').text((val * 1000) + 'kg not wasted');
+
         this.state.mainGroup.select('.path-clone').transition().duration(1000)
         .attr('d', d3.line().curve(d3.curveMonotoneY)
         .x(d => x(d.date))
@@ -253,7 +282,7 @@ class GraphZoom extends Component {
         .transition().duration(1000)
         .attr('d', area)
         .transition().duration(1000).delay(1000)
-        .style('fill-opacity', 0.02);
+        .style('fill-opacity', 0.3);
     }
 
 

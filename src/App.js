@@ -1,17 +1,12 @@
 import React from 'react';
 import './scss/App.scss';
-import Graph from './components/Graph';
-import GraphZoom from './components/GraphZoom';
-import Controller from './components/Controller';
+import AppContainer from './components/AppContainer';
 
 function App() {
+
   return (
     <div className="App">
-      <Controller/>
-      <div className='chart-container'>
-        <Graph id={1}></Graph>
-        <GraphZoom id={2}></GraphZoom>
-      </div>
+        <AppContainer></AppContainer>
     </div>
   );
 }

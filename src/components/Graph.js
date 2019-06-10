@@ -13,8 +13,8 @@ class Graph extends Component {
 
         return (
             <React.Fragment>
-                <div className="graph-container" id="basic-chart" style={{ width: '60vw', height: '50vh' }}>
-
+                <div className="graph-container" id="basic-chart" style={{ width: '60vw', height: '48vh' }}>
+                    <div className="graph-title">Every year mismanaged plastic waste that may end up in the ocean (in millions of tons)</div>
                 </div>
                 {/* <button onClick={this.drawHistoryPoints}>Zoom in</button> */}
             </React.Fragment>
@@ -28,6 +28,10 @@ class Graph extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.showZoomedGraph) {
+            console.log('edit margin')
+            document.getElementById('basic-chart').style.marginTop = '0px';
+        }
     }
 
     initGraph = () => {
@@ -92,7 +96,7 @@ class Graph extends Component {
         mainGroup.append("g")
             .attr('class', 'graph-axis graph-axis-y')
             .attr("transform", 'translate(' + this.relativeWidth(margin.left) + ',0)')
-            .call(d3.axisLeft(y).tickSize(0).tickValues(yTicks));
+            .call(d3.axisLeft(y).tickSize(0).tickValues(yTicks).tickFormat(d => Math.round(d / 1000000)));
 
         //  clip path graph
         mainGroup.append('clipPath')
@@ -192,25 +196,25 @@ class Graph extends Component {
 
         firstPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(1000).attr('r', 1);
         firstPointGroup.append('rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'white').transition().duration(500).delay(1500).attr('height', 18).attr('y', -20);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -18).text('1980').style('font-size', '2.7px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -15).text('Plastic starts').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
-        firstPointGroup.append('text').attr('x', 0).attr('y', -12.5).text('being recycled').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -17).text('1980').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(2000).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -13.5).text('Plastic starts').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
+        firstPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', -10.5).text('being recycled').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
 
 
         const crisisPointGroup = pointsGroup.append('g').attr('transform', 'translate(' + this.state.x(d3.timeParse("%Y-%m-%d")('2008-01-01')) + ', ' + this.state.y(182088000) + ')');
 
         crisisPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(7000).attr('r', 1);
         crisisPointGroup.append('rect').attr('x', -0.2).attr('y', 2).attr('width', 0.4).attr('height', 0).attr('fill', 'white').transition().duration(500).delay(7500).attr('height', 18)
-        crisisPointGroup.append('text').attr('x', 0).attr('y', 19.5).text('2008').style('font-size', '2.7px').attr('opacity', 0).transition().duration(500).delay(8000).attr('opacity', 1).attr('x', 1);
-        crisisPointGroup.append('text').attr('x', 0).attr('y', 16).text('Economic crisis').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(8500).attr('opacity', 1).attr('x', 1);
+        crisisPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', 19.5).text('2008').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(8000).attr('opacity', 1).attr('x', 1);
+        crisisPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', 16).text('Economic crisis').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(8500).attr('opacity', 1).attr('x', 1);
 
 
         const forecastPointGroup = pointsGroup.append('g').attr('transform', 'translate(' + this.state.x(d3.timeParse("%Y-%m-%d")('2025-01-01')) + ', ' + this.state.y(235170000) + ')');
 
         forecastPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(10000).attr('r', 1);
         forecastPointGroup.append('rect').attr('x', -0.2).attr('y', 2).attr('width', 0.4).attr('height', 0).attr('fill', 'white').transition().duration(500).delay(10500).attr('height', 18)
-        forecastPointGroup.append('text').attr('x', 0).attr('y', 19.5).text('2025').attr('text-anchor', 'end').style('font-size', '2.7px').attr('opacity', 0).transition().duration(500).delay(11000).attr('opacity', 1).attr('x', -1);
-        forecastPointGroup.append('text').attr('x', 0).attr('y', 16).text('Forecast').attr('text-anchor', 'end').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(11500).attr('opacity', 1).attr('x', -1);
+        forecastPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', 19.5).text('2025').attr('text-anchor', 'end').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(11000).attr('opacity', 1).attr('x', -1);
+        forecastPointGroup.append('text').attr('fill', 'white').attr('x', 0).attr('y', 16).text('Forecast').attr('text-anchor', 'end').style('font-size', '3px').attr('opacity', 0).transition().duration(500).delay(11500).attr('opacity', 1).attr('x', -1);
     }
 
     zoomIn = (date) => {

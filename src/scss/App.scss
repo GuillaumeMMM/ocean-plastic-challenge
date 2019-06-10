@@ -22,12 +22,47 @@ body {
           min-height: 100vh;
           display: flex;
           flex-direction: column;
-          justify-content: space-around;
+        //   justify-content: space-around;
           align-items: center;
+
+          #zoomed-chart {
+              opacity: 0;
+              position: absolute;
+              margin-top: 30%;
+              transition: margin-top 1s, opacity 1s;
+                -webkit-transition: margin-top 1s, opacity 1s;
+          }
+
+        #basic-chart {
+            margin-top: 20%;
+            transition: margin-top 1s;
+            -webkit-transition: margin-top 1s;
+        }
 
           .graph-container {
               // border: 1px solid black;
               // background-color: lightgrey;
+              position: relative;
+
+              .graph-title {
+                position: absolute;
+                top: calc(5%);
+                left: calc(10% + 3px);
+                // color: white;
+                padding: 1px 5px;
+                font-size: 0.7em;
+                background-color: rgba(255, 255, 255, 0.7);
+              }
+
+              .graph-title-zoomed {
+                position: absolute;
+                top: calc(5%);
+                left: calc(15% + 3px);
+                // color: white;
+                padding: 1px 5px;
+                font-size: 0.7em;
+                background-color: rgba(255, 255, 255, 0.7);
+              }
 
               .graph-axis {
 
@@ -38,7 +73,7 @@ body {
                   .tick {
                     color: white;
                       text {
-                          font-size: 2.2px;
+                          font-size: 3px;
                       }
 
                       line {
@@ -69,6 +104,10 @@ body {
                   }
 
                   .grid-x-lines {
+                    path {
+                        // display: none;
+                    }
+
                       .tick:nth-child(2) {
                           display: none;
                       }
@@ -92,6 +131,7 @@ body {
 
               .point-circle {
                   stroke: white;
+                  stroke-width: 0.6px !important;
                   text {
                     color: white;
                   }
