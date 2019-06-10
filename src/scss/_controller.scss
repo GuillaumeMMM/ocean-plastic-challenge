@@ -46,13 +46,12 @@ $pw-darken-amount: 30%;
         text-overflow: ellipsis;
         color: $pw-incomplete;
         display: block;
-        &:hover {
-            color: darken($pw-incomplete, $pw-darken-amount);
-        }
+        // &:hover {
+        //     color: darken($pw-incomplete, $pw-darken-amount);
+        // }
     }
     > li .bubble {
         // border-radius: 1000px;
-        cursor: pointer;
         width: $pw-bubble-size;
         height: $pw-bubble-size;
         background-size: 100%;
@@ -62,29 +61,35 @@ $pw-darken-amount: 30%;
         margin: 0 auto 0.5em auto;
         // border-bottom: $pw-border-thickness solid darken($pw-incomplete, 20%);
     }
-    > li .reuse-active {
+    .active .reuse {
+      background-image: url("../img/1w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .reuse {
       background-image: url("../img/1a.png");
     }
-    > li .reuse-complete {
-      background-image: url("../img/1w.png");
-    }
-    > li .friend-lock {
+    .lock .friend {
       background-image: url("../img/2ic.png");
     }
-    > li .friend-active {
+    .active .friend {
+      background-image: url("../img/2w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .friend {
       background-image: url("../img/2a.png");
     }
-    > li .friend-complete {
-      background-image: url("../img/2w.png");
-    }
-    > li .fandf-lock {
+    .lock .fnf {
       background-image: url("../img/3ic.png");
     }
-    > li .fandf-active {
-      background-image: url("../img/3a.png");
-    }
-    > li .fandf-complete {
+    .active .fnf {
       background-image: url("../img/3w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .fnf {
+      background-image: url("../img/3a.png");
     }
 
     // line connectors
@@ -98,32 +103,32 @@ $pw-darken-amount: 30%;
         height: $pw-bubble-line-thickness;
         content: '';
         background-color: $pw-incomplete;
-        position: absolute;
-        z-index: -1;
+        // position: absolute;
+        // z-index: -1;
     }
     > li .bubble:before {
         left: 0;
     }
     > li .bubble:after {
         right: 0;
-        position: absolute;
-        z-index: -1;
+        // position: absolute;
+        // z-index: -1;
     }
 
     > li:first-child .bubble:before,
     > li:first-child .bubble:after {
         width: 50%;
         margin-left: 50%;
-        position: absolute;
-        z-index: -1;
+        // position: absolute;
+        // z-index: -1;
     }
 
     > li:last-child .bubble:before,
     > li:last-child .bubble:after {
         width: 50%;
         margin-right: 50%;
-        position: absolute;
-        z-index: -1;
+        // position: absolute;
+        // z-index: -1;
     }
 
 
@@ -165,7 +170,10 @@ $pw-darken-amount: 30%;
             left: 50%;
             margin-left: -$pw-bubble-line-thickness / 2;
             width: $pw-bubble-line-thickness;
-            height: 100%;
+            height: -webkit-calc(100% - 100px);
+            height:    -moz-calc(100% - 100px);
+            height:         calc(100% - 100px);
+            margin-top: $pw-bubble-size / 2;
         }
         > li:last-child .bubble:before,
         > li:last-child .bubble:after {

@@ -13,7 +13,7 @@ class Graph extends Component {
 
         return (
             <React.Fragment>
-                <div className="graph-container" id="basic-chart" style={{ width: '80vw', height: '60vh' }}>
+                <div className="graph-container" id="basic-chart" style={{ width: '60vw', height: '50vh' }}>
 
                 </div>
                 {/* <button onClick={this.drawHistoryPoints}>Zoom in</button> */}
