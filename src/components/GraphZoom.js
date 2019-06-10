@@ -17,7 +17,7 @@ class GraphZoom extends Component {
 
                 </div>
                 <button onClick={this.splitLines.bind(this, 0.001)}>Split Lines</button>
-                <button onClick={this.subtractMore.bind(this, 0.001)}>Subtract More</button>
+                <button onClick={this.subtractMore.bind(this, 0.01)}>Subtract More</button>
             </React.Fragment>
         );
     }
@@ -140,7 +140,7 @@ class GraphZoom extends Component {
             );
 
 
-        this.setState({ data: totalData, mainGroup: mainGroup, linesGroup: linesGroup, margin: margin, y: y, x: x, svg: svg }, this.drawHistoryPoints);
+        this.setState({ data: totalData, mainGroup: mainGroup, linesGroup: linesGroup, margin: margin, y: y, x: x, svg: svg, gridYGroup: gridYGroup }, this.drawHistoryPoints);
     }
 
     //  Takes a % ang returns the right height
@@ -155,7 +155,7 @@ class GraphZoom extends Component {
 
     drawHistoryPoints = () => {
         const pointsGroup = this.state.mainGroup.append('g').attr('class', 'points-group');
-        const firstPointGroup = pointsGroup.append('g').attr('transform', 'translate(' + this.state.x(d3.timeParse("%Y-%m-%d")(this.state.data[this.state.data.length - 1].date)) + ', ' + this.state.y(this.state.data[this.state.data.length - 1].value) + ')');
+        const firstPointGroup = pointsGroup.append('g').attr('class', 'first-points-group').attr('transform', 'translate(' + this.state.x(d3.timeParse("%Y-%m-%d")(this.state.data[this.state.data.length - 1].date)) + ', ' + this.state.y(this.state.data[this.state.data.length - 1].value) + ')');
 
         firstPointGroup.append('circle').attr('class','point-circle').attr('cx', 0).attr('cy', 0).attr('fill', 'black').attr('r', 0).transition().duration(500).delay(1000).attr('r', 1);
         firstPointGroup.append('rect').attr('x', -0.2).attr('y', -2).attr('width', 0.4).attr('height', 0).attr('fill', 'black').transition().duration(500).delay(1500).attr('height', 18).attr('y', -20);
@@ -163,7 +163,7 @@ class GraphZoom extends Component {
         firstPointGroup.append('text').attr('x', 0).attr('y', -15).text('Plastic in the').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
         firstPointGroup.append('text').attr('x', 0).attr('y', -12.5).text('ocean forecast').style('font-size', '2.3px').attr('opacity', 0).transition().duration(500).delay(2500).attr('opacity', 1).attr('x', 1);
 
-        this.setState({})
+        // this.splitLines(0.001);
     }
 
     splitLines = (val) => {
@@ -215,11 +215,30 @@ class GraphZoom extends Component {
     subtractMore = (val) => {
         const x = this.state.x;
         const y = this.state.y;
+        
+
+        console.log(y.domain);
 
         let currentBindedData = this.state.mainGroup.select('.path-clone').datum();
         currentBindedData[0].value2 = currentBindedData[0].value2 - val;
         currentBindedData[1].value2 = currentBindedData[1].value2 - val;
         console.log(currentBindedData)
+        y.domain([currentBindedData[1].value2 - val, 235170000.01])
+        this.state.mainGroup.select('.graph-axis-y').transition().duration(1000)
+            .call(d3.axisLeft(y).tickSize(0).ticks(3));
+
+        this.state.gridYGroup.transition().duration(1000).call(d3.axisLeft(y)
+        .tickSize(-this.state.width)
+        .tickFormat("")
+        )
+
+        this.state.mainGroup.select('.now-path').transition().duration(1000).attr("d", d3.line().curve(d3.curveCardinal)
+        .x(d => x(d.date))
+        .y(function (d) { return y(d.value) })
+        );
+
+        this.state.mainGroup.select('.first-points-group').transition().duration(1000).attr('transform', 'translate(' + x(d3.timeParse("%Y-%m-%d")(this.state.data[this.state.data.length - 1].date)) + ', ' + y(this.state.data[this.state.data.length - 1].value) + ')');
+
         this.state.mainGroup.select('.path-clone').transition().duration(1000)
         .attr('d', d3.line().curve(d3.curveMonotoneY)
         .x(d => x(d.date))
