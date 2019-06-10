@@ -40,7 +40,7 @@ class Controller extends React.Component {
   render () {
     return (
 
-      <ul class="progress-indicator stepped stacked">
+      <ul className="progress-indicator stepped stacked">
         <li className={this.state.reuseStatus}>
           <span onClick={this.handleClickReuse} className="bubble reuse"></span>
           <div className="stacked-text">
@@ -50,7 +50,7 @@ class Controller extends React.Component {
         </li>
         <li className={this.state.friendStatus}>
             <span onClick={this.handleClickFriend} className="bubble friend"></span>
-            <div claclassNamess="stacked-text">
+            <div className="stacked-text">
                 <div className='title'>2. Share the idea with friends</div>
                 <div className='content'>You're using less plastic packaging now, the next step is persuading your frineds also use reusable packaging.</div>
             </div>
