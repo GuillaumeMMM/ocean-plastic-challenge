@@ -1,0 +1,212 @@
+//color
+$pw-incomplete: gray;
+$pw-complete: white;
+$pw-active: pink;
+// Sizing
+$pw-bubble-size: 100px;
+$pw-bubble-line-thickness: 2px;
+$pw-border-thickness: 1px;
+$pw-darken-amount: 30%;
+
+
+@mixin bubble-style($color) {
+    // background-color: $color;
+    color: $color;
+    border-color: darken($color, $pw-darken-amount);
+    &:before,
+    &:after {
+        background-color: $color;
+        border-color: darken($color, $pw-darken-amount);
+    }
+}
+
+.no-flexer {
+    display: block;
+}
+.flexer-element {
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    flex: 1;
+}
+.progress-indicator {
+    margin: 0;
+    padding: 80px 0 0 0;
+    font-size: 80%;
+    text-transform: uppercase;
+    margin-bottom: 1em;
+    > li {
+        @extend .flexer-element;
+        list-style: none;
+        text-align: center;
+        width: auto;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        text-overflow: ellipsis;
+        color: $pw-incomplete;
+        display: block;
+        // &:hover {
+        //     color: darken($pw-incomplete, $pw-darken-amount);
+        // }
+    }
+    > li .bubble {
+        // border-radius: 1000px;
+        width: $pw-bubble-size;
+        height: $pw-bubble-size;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        // background-color: $pw-incomplete;
+        display: block;
+        margin: 0 auto 0.5em auto;
+        // border-bottom: $pw-border-thickness solid darken($pw-incomplete, 20%);
+    }
+    .active .reuse {
+      background-image: url("../img/1w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .reuse {
+      background-image: url("../img/1a.png");
+    }
+    .lock .friend {
+      background-image: url("../img/2ic.png");
+    }
+    .active .friend {
+      background-image: url("../img/2w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .friend {
+      background-image: url("../img/2a.png");
+    }
+    .lock .fnf {
+      background-image: url("../img/3ic.png");
+    }
+    .active .fnf {
+      background-image: url("../img/3w.png");
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    .complete .fnf {
+      background-image: url("../img/3a.png");
+    }
+
+    // line connectors
+
+    > li .bubble:before,
+    > li .bubble:after {
+        display: block;
+        position: absolute;
+        top: $pw-bubble-size / 2 - $pw-border-thickness;
+        width: 100%;
+        height: $pw-bubble-line-thickness;
+        content: '';
+        background-color: $pw-incomplete;
+        // position: absolute;
+        // z-index: -1;
+    }
+    > li .bubble:before {
+        left: 0;
+    }
+    > li .bubble:after {
+        right: 0;
+        // position: absolute;
+        // z-index: -1;
+    }
+
+    > li:first-child .bubble:before,
+    > li:first-child .bubble:after {
+        width: 50%;
+        margin-left: 50%;
+        // position: absolute;
+        // z-index: -1;
+    }
+
+    > li:last-child .bubble:before,
+    > li:last-child .bubble:after {
+        width: 50%;
+        margin-right: 50%;
+        // position: absolute;
+        // z-index: -1;
+    }
+
+
+    // completed state
+
+    > li.completed {
+        color: $pw-complete;
+        .bubble {
+            @include bubble-style($pw-complete);
+        }
+    }
+
+    // current state
+
+    > li.active {
+        color: $pw-active;
+        .bubble {
+            @include bubble-style($pw-active);
+        }
+    }
+
+    // button states
+
+    // > li a:hover .bubble {
+    //     @include bubble-style($pw-hover);
+    // }
+
+    // stacked version
+
+    &.stacked {
+        @extend .no-flexer;
+        > li {
+            text-indent: -10px;
+            text-align: center;
+            display: block;
+        }
+        > li .bubble:before,
+        > li .bubble:after {
+            left: 50%;
+            margin-left: -$pw-bubble-line-thickness / 2;
+            width: $pw-bubble-line-thickness;
+            height: -webkit-calc(100% - 100px);
+            height:    -moz-calc(100% - 100px);
+            height:         calc(100% - 100px);
+            margin-top: $pw-bubble-size / 2;
+        }
+        > li:last-child .bubble:before,
+        > li:last-child .bubble:after {
+            width: 0px !important;
+            // margin-right: 50%;
+        }
+        .stacked-text {
+            position: relative;
+            z-index: 10;
+            top: 0;
+            margin-left: 60% !important;
+            width: 45% !important;
+            display: inline-block;
+            text-align: left;
+            line-height: 1.2em;
+        }
+        > li a {
+            border: none;
+        }
+    }
+    &.stacked.nocenter {
+        > li .bubble {
+            margin-left: 0;
+            margin-right: 0
+        }
+        > li .bubble:before,
+        > li .bubble:after {
+            left: $pw-bubble-size / 2;
+        }
+        .stacked-text {
+            width: auto !important;
+            display: block;
+            margin-left: $pw-bubble-size * 2 !important;
+        }
+    }
+}
