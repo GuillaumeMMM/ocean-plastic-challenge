@@ -9,9 +9,12 @@ body {
         background-image: url("../img/bg.jpeg");
         background-color: #cccccc;
         background-position: center center;
-        
+
         display: grid;
         grid-template-columns: 20% auto;
+
+        z-index: -100;
+        position: relative;
 
         .chart-container {
           font-family: 'Open Sans', sans-serif;
@@ -32,6 +35,7 @@ body {
                   }
 
                   .tick {
+                    color: white;
                       text {
                           font-size: 2.2px;
                       }
@@ -87,6 +91,9 @@ body {
 
               .point-circle {
                   stroke: white;
+                  text {
+                    color: white;
+                  }
               }
           }
         }

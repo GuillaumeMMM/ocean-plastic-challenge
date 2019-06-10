@@ -1,25 +1,16 @@
-/* Copyright 2013-2015 etc Chris Tabor. See https://github.com/christabor/css-progress-wizard/blob/master/LICENSE for details. */
-
-// Colors
-$pw-incomplete: #bbb !default;
-$pw-complete: #65d074 !default;
-$pw-active: #337AB7 !default;
-$pw-hover: #5671d0 !default;
-$pw-step-danger: #d3140f !default;
-$pw-step-warning: #edb10a !default;
-$pw-step-info: #5b32d6 !default;
-
+//color
+$pw-incomplete: gray;
+$pw-complete: white;
+$pw-active: pink;
 // Sizing
-$pw-bubble-size: 20px !default;
-$pw-bubble-line-thickness: 3px !default;
-$pw-border-thickness: 1px !default;
-$pw-darken-amount: 30% !default;
+$pw-bubble-size: 100px;
+$pw-bubble-line-thickness: 2px;
+$pw-border-thickness: 1px;
+$pw-darken-amount: 30%;
 
-// Mobile
-$pw-mobile-size: 400px !default;
 
 @mixin bubble-style($color) {
-    background-color: $color;
+    // background-color: $color;
     color: $color;
     border-color: darken($color, $pw-darken-amount);
     &:before,
@@ -29,21 +20,8 @@ $pw-mobile-size: 400px !default;
     }
 }
 
-.flexer {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-}
 .no-flexer {
     display: block;
-}
-.no-flexer-element {
-    -ms-flex: 0;
-    -webkit-flex: 0;
-    -moz-flex: 0;
-    flex: 0;
 }
 .flexer-element {
     -ms-flex: 1;
@@ -52,9 +30,8 @@ $pw-mobile-size: 400px !default;
     flex: 1;
 }
 .progress-indicator {
-    @extend .flexer;
     margin: 0;
-    padding: 0;
+    padding: 80px 0 0 0;
     font-size: 80%;
     text-transform: uppercase;
     margin-bottom: 1em;
@@ -74,13 +51,40 @@ $pw-mobile-size: 400px !default;
         }
     }
     > li .bubble {
-        border-radius: 1000px;
+        // border-radius: 1000px;
+        cursor: pointer;
         width: $pw-bubble-size;
         height: $pw-bubble-size;
-        background-color: $pw-incomplete;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        // background-color: $pw-incomplete;
         display: block;
         margin: 0 auto 0.5em auto;
-        border-bottom: $pw-border-thickness solid darken($pw-incomplete, 20%);
+        // border-bottom: $pw-border-thickness solid darken($pw-incomplete, 20%);
+    }
+    > li .reuse-active {
+      background-image: url("../img/1a.png");
+    }
+    > li .reuse-complete {
+      background-image: url("../img/1w.png");
+    }
+    > li .friend-lock {
+      background-image: url("../img/2ic.png");
+    }
+    > li .friend-active {
+      background-image: url("../img/2a.png");
+    }
+    > li .friend-complete {
+      background-image: url("../img/2w.png");
+    }
+    > li .fandf-lock {
+      background-image: url("../img/3ic.png");
+    }
+    > li .fandf-active {
+      background-image: url("../img/3a.png");
+    }
+    > li .fandf-complete {
+      background-image: url("../img/3w.png");
     }
 
     // line connectors
@@ -94,24 +98,32 @@ $pw-mobile-size: 400px !default;
         height: $pw-bubble-line-thickness;
         content: '';
         background-color: $pw-incomplete;
+        position: absolute;
+        z-index: -1;
     }
     > li .bubble:before {
         left: 0;
     }
     > li .bubble:after {
         right: 0;
+        position: absolute;
+        z-index: -1;
     }
 
     > li:first-child .bubble:before,
     > li:first-child .bubble:after {
         width: 50%;
         margin-left: 50%;
+        position: absolute;
+        z-index: -1;
     }
 
     > li:last-child .bubble:before,
     > li:last-child .bubble:after {
         width: 50%;
         margin-right: 50%;
+        position: absolute;
+        z-index: -1;
     }
 
 
@@ -135,21 +147,9 @@ $pw-mobile-size: 400px !default;
 
     // button states
 
-    > li a:hover .bubble {
-        @include bubble-style($pw-hover);
-    }
-
-    // override states
-
-    > li.danger .bubble {
-        @include bubble-style($pw-step-danger);
-    }
-    > li.warning .bubble {
-        @include bubble-style($pw-step-warning);
-    }
-    > li.info .bubble {
-        @include bubble-style($pw-step-info);
-    }
+    // > li a:hover .bubble {
+    //     @include bubble-style($pw-hover);
+    // }
 
     // stacked version
 
@@ -166,6 +166,11 @@ $pw-mobile-size: 400px !default;
             margin-left: -$pw-bubble-line-thickness / 2;
             width: $pw-bubble-line-thickness;
             height: 100%;
+        }
+        > li:last-child .bubble:before,
+        > li:last-child .bubble:after {
+            width: 0px !important;
+            // margin-right: 50%;
         }
         .stacked-text {
             position: relative;
