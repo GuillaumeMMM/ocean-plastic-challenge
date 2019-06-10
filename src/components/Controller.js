@@ -40,26 +40,26 @@ class Controller extends React.Component {
   render () {
     return (
       <ul class="progress-indicator stepped stacked">
-        <li onClick={this.handleClickReuse} className={this.state.reuseStatus}>
-          <span class="bubble reuse"></span>
-          <span class="stacked-text">
-              <span class="fa fa-calendar"></span> Step 1.
-              <span class="subdued">/ do something do something  do something  do something </span>
-          </span>
+        <li className={this.state.reuseStatus}>
+          <span onClick={this.handleClickReuse} class="bubble reuse"></span>
+          <div class="stacked-text">
+              <div className='title'>1. Using Reusable Packaging</div>
+              <div className='content'>Try to not use single-use plastic packaging in your daily life.</div>
+          </div>
         </li>
         <li className={this.state.friendStatus}>
             <span onClick={this.handleClickFriend} class="bubble friend"></span>
-            <span class="stacked-text">
-                <span class="fa fa-calendar"></span> Step 2.
-                <span class="subdued">/ Some stuff happened. It was amazing.</span>
-            </span>
+            <div class="stacked-text">
+                <div className='title'>2. Share the idea with friends</div>
+                <div className='content'>You're using less plastic packaging now, the next step is persuading your frineds also use reusable packaging.</div>
+            </div>
         </li>
         <li className={this.state.fnfStatus}>
             <span onClick={this.handleClickFnf} class="bubble fnf"></span>
-            <span class="stacked-text">
-                <span class="fa fa-calendar"></span> Step 3.
-                <span class="subdued">/ What a wild day!</span>
-            </span>
+            <div class="stacked-text">
+                <div className='title'>3. Communication</div>
+                <div className='content'>Try to share this idea to more people. You can write blogs, make some videos, post on social media, and help your frind to share the idea to their friends easily.</div>
+            </div>
         </li>
       </ul>
     );

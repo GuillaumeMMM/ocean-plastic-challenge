@@ -1,7 +1,8 @@
 //color
 $pw-incomplete: gray;
+$pw-lock: gray;
 $pw-complete: white;
-$pw-active: pink;
+$pw-active: white;
 // Sizing
 $pw-bubble-size: 100px;
 $pw-bubble-line-thickness: 2px;
@@ -31,9 +32,9 @@ $pw-darken-amount: 30%;
 }
 .progress-indicator {
     margin: 0;
-    padding: 80px 0 0 0;
+    padding: 100px 120px 0 0;
     font-size: 80%;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     margin-bottom: 1em;
     > li {
         @extend .flexer-element;
@@ -63,33 +64,45 @@ $pw-darken-amount: 30%;
     }
     .active .reuse {
       background-image: url("../img/1w.png");
-      opacity: 0.8;
+      opacity: 0.7;
       cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
     }
     .complete .reuse {
       background-image: url("../img/1a.png");
+      opacity: 0.8;
     }
     .lock .friend {
       background-image: url("../img/2ic.png");
     }
     .active .friend {
       background-image: url("../img/2w.png");
-      opacity: 0.8;
+      opacity: 0.7;
       cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
     }
     .complete .friend {
       background-image: url("../img/2a.png");
+      opacity: 0.8;
     }
     .lock .fnf {
       background-image: url("../img/3ic.png");
     }
     .active .fnf {
       background-image: url("../img/3w.png");
-      opacity: 0.8;
+      opacity: 0.7;
       cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
     }
     .complete .fnf {
       background-image: url("../img/3a.png");
+      opacity: 0.8;
     }
 
     // line connectors
@@ -131,22 +144,24 @@ $pw-darken-amount: 30%;
         // z-index: -1;
     }
 
-
-    // completed state
-
-    > li.completed {
-        color: $pw-complete;
+    > li.lock {
+        color: $pw-lock;
         .bubble {
-            @include bubble-style($pw-complete);
+            @include bubble-style($pw-lock);
         }
     }
-
-    // current state
 
     > li.active {
         color: $pw-active;
         .bubble {
             @include bubble-style($pw-active);
+        }
+    }
+
+    > li.complete {
+        color: $pw-complete;
+        .bubble {
+            @include bubble-style($pw-complete);
         }
     }
 
@@ -161,7 +176,7 @@ $pw-darken-amount: 30%;
     &.stacked {
         @extend .no-flexer;
         > li {
-            text-indent: -10px;
+            // text-indent: -10px;
             text-align: center;
             display: block;
         }
@@ -183,12 +198,20 @@ $pw-darken-amount: 30%;
         .stacked-text {
             position: relative;
             z-index: 10;
-            top: 0;
-            margin-left: 60% !important;
-            width: 45% !important;
+            margin-left: 80% !important;
+            width: 255px !important;
             display: inline-block;
             text-align: left;
-            line-height: 1.2em;
+            // line-height: 1.2em;
+            bottom: 80px;
+            .title {
+              font-size: 18px;
+              font-weight: 500;
+              padding-bottom: 5px;
+            }
+            .content {
+              font-size: 14px;
+            }
         }
         > li a {
             border: none;
