@@ -139,6 +139,21 @@ body {
           }
         }
     }
+
+    .footer {
+      color: gray;
+      text-align: right;
+      padding-right: 30px;
+      padding-top: 80px;
+      height: 80px;
+      .author {
+        cursor: pointer;
+        &:hover {
+          color: white;
+        }
+      }
+      a { color: gray;}
+    }
   }
 
 @import "controller";
